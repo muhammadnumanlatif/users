@@ -3,7 +3,10 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:users/assistants/assitant_methods.dart';
 import 'package:users/models/user_model.dart';
 
 //Firebase
@@ -13,6 +16,20 @@ User? currentFirebaseUser;
 
 //user model
 UserModel? userModelCurrentInfo;
+
+//geolocation ON GOOGLE MAP
+Position? userCurrentPosition;
+var geoLocator = Geolocator();
+
+
+//Location Permission
+LocationPermission?  _locationPermission;
+checkIfLocationPermissionAllowed() async{
+  _locationPermission = await Geolocator.requestPermission();
+ if(_locationPermission== LocationPermission.denied){
+   _locationPermission=await Geolocator.requestPermission();
+ }
+}
 
 //Google Map
  const CameraPosition kGooglePlex = CameraPosition(
